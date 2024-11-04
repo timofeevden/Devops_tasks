@@ -1,0 +1,22 @@
+FROM ubuntu:20.04
+WORKDIR /miniserver
+COPY main.c /miniserver/main.c
+
+COPY run_server.sh /miniserver/run_server.sh
+
+RUN apt update && apt install -y nginx gcc spawn-fcgi libfcgi-dev && chmod 777 ./run_server.sh && rm -rf /var/lib/apt/lists
+
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+
+RUN adduser --disabled-password turkatrj; \
+	chown -R turkatrj:turkatrj /etc/nginx/ /var/cache/nginx /var/log/nginx /var/lib/nginx /run/ /miniserver; \
+	touch /var/run/nginx.pid; \
+	chown -R turkatrj:turkatrj /var/run/nginx.pid; \
+	chmod u-s /usr/bin/umount /usr/bin/chsh /usr/bin/chfn /usr/bin/su /usr/bin/mount /usr/bin/gpasswd /usr/bin/newgrp /usr/bin/passwd; \
+	chmod g-s /usr/bin/expiry /usr/sbin/unix_chkpwd /usr/sbin/pam_extrausers_chkpwd /usr/bin/wall /usr/bin/chage;
+
+USER turkatrj
+
+CMD ["sh", "./run_server.sh"]
+
+HEALTHCHECK CMD curl -f http:/localhost/ || exit 1

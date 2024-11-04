@@ -1,0 +1,71 @@
+# For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
+variables:
+  MESSAGE_CHAT_ID: "869766919"
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - code_style
+  - tests
+  - deploy
+  - fail-message
+
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
+    - make build -C ./src/tg_bot
+    - make s21_cat -C ./src/cat
+    - make s21_grep -C ./src/grep
+    - ./src/tg_bot/bot_message $MESSAGE_CHAT_ID Build_successful
+  artifacts:
+    paths:
+      - src/tg_bot/bot_message
+      - src/cat/s21_cat
+      - src/grep/s21_grep
+    expire_in: 30 days
+
+style-job:
+  stage: code_style
+  when: on_success
+  script:
+    - cp materials/linters/.clang-format src/cat/.clang-format
+    - cp materials/linters/.clang-format src/grep/.clang-format
+    - cd src/cat
+    - clang-format -Werror -n *.c
+    - cd ../grep
+    - clang-format -Werror -n *.c
+    - ../tg_bot/bot_message $MESSAGE_CHAT_ID Code-Style_successful
+
+tests-job:
+  stage: tests
+  when: on_success
+  script:
+    - cd src/cat/
+    - bash test_cat.sh  | grep -e FAIL -e SUCCESS
+    - cd ../grep/
+    - bash test_grep.sh | grep -e FAIL -e SUCCESS
+    - ../tg_bot/bot_message $MESSAGE_CHAT_ID Tests_successful,CI_successful
+    - ../tg_bot/bot_message $MESSAGE_CHAT_ID ===============================
+
+deploy-job:
+  stage: deploy
+  script:
+    - chmod 777 src/deploy.sh
+    - sh src/deploy.sh
+    - ./src/tg_bot/bot_message $MESSAGE_CHAT_ID CD_successful
+    - ./src/tg_bot/bot_message $MESSAGE_CHAT_ID ===============================
+
+fail-message-job:
+  stage: fail-message
+  when: on_failure
+  script:
+    - ./src/tg_bot/bot_message $MESSAGE_CHAT_ID Failed
+    - ./src/tg_bot/bot_message $MESSAGE_CHAT_ID ===============================
+
+
+
+
+
