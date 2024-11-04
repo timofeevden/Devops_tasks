@@ -41,7 +41,7 @@
  
 Версия Ubuntu:
 
-![linux](/src/screenshots/1.png)
+![linux](/Linux/screenshots/1.png)
 
 
 <a name="Part 2. Создание пользователя"></a> 
