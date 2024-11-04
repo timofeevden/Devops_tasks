@@ -48,15 +48,15 @@
 ## Part 2. Создание пользователя
    Создание нового пользователя NewADMIN в группе adm:
 
-   ![linux](/src/screenshots/2-1.png)
+   ![linux](/Linux/screenshots/2-1.png)
 
    Информация о новом пользователе в конце файла /etc/passwd:
 
-   ![linux](/src/screenshots/2-2.png)
+   ![linux](/Linux/screenshots/2-2.png)
 
    Проверяем группу нового пользователя: `vim /etc/group`:
 
-   ![linux](/src/screenshots/2-3.png)
+   ![linux](/Linux/screenshots/2-3.png)
 
 
 <a name="Part 3. Настройка сети ОС"></a> 
@@ -67,23 +67,23 @@
    Изменяем имя командой `sudo hostnamectl set-hostname user-1`.
    Далее проверяем имя командой `cat /etc/hostname`.
 
-   ![linux](/src/screenshots/3-1.png)
+   ![linux](/Linux/screenshots/3-1.png)
 
    После перезагрузки машины название в командной строке изменилось:
 
-   ![linux](/src/screenshots/3-2.png)
+   ![linux](/Linux/screenshots/3-2.png)
 
    #### 2. Установить временную зону, соответствующую вашему текущему местоположению.
 
    Проверяем время командой `date` и устанавливаем временную зону командой `sudo timedatectl set-timezone Europe/Moscow`. Далее проверям с помощью `timedatectl`:
 
-   ![linux](/src/screenshots/3-3.png)
+   ![linux](/Linux/screenshots/3-3.png)
 
    #### 3. Вывести названия сетевых интерфейсов с помощью консольной команды.
 
    Выполняем команду `ls /sys/class/net`:
 
-   ![linux](/src/screenshots/3-4.png)  
+   ![linux](/Linux/screenshots/3-4.png)  
 
    eth0 – интерфейс, связанный с сетевой картой, работающей через Ethernet (по кабелю). В выводе выше можно увидеть множество полезной информации, например, ip-адрес, привязанный к этому интерфейсу. Если бы сетевых карт было несколько, то кроме eth0, мы бы увидели eth1 и так далее.
 
@@ -96,13 +96,13 @@
 
    Узнать IP-адресс устройства можно узнать командами `ip r` или `hostname –I` :
 
-   ![linux](/src/screenshots/3-5.png) 
+   ![linux](/Linux/screenshots/3-5.png) 
 
    #### 5. Определить и вывести на экран внешний ip-адрес шлюза (ip) и внутренний IP-адрес шлюза, он же ip-адрес по умолчанию (gw).
 
    Внутренний адрес шлюза можно узнать комадой `ip route | grep default`. Внешний узнаем командой `wget -qO- eth0.me`
 
-   ![linux](/src/screenshots/3-5.png)
+   ![linux](/Linux/screenshots/3-5.png)
 
    #### 6. Задать статичные (заданные вручную, а не полученные от DHCP сервера) настройки ip, gw, dns (использовать публичный DNS серверы, например 1.1.1.1 или 8.8.8.8).
 
@@ -112,13 +112,13 @@
 
    Далее сохраняем изменения командой `sudo netplan apply`.
 
-   ![linux](/src/screenshots/3-6.png)
+   ![linux](/Linux/screenshots/3-6.png)
 
    #### 7. Перезагрузить виртуальную машину. Убедиться, что статичные сетевые настройки (ip, gw, dns) соответствуют заданным в предыдущем пункте.
 
 Перезагружаем машину командой reboot и проверяем настройки, после чего пингуем 5-ю пакетами удаленные хосты 1.1.1.1 и ya.ru
 
-![linux](/src/screenshots/3-7.png)
+![linux](/Linux/screenshots/3-7.png)
 
 
 <a name="Part 4. Обновление ОС"></a> 
@@ -130,7 +130,7 @@
 
 После завершения используем команду `sudo apt dist-upgrade`, которая выполнит любые дополнительные обновления, связанные с изменением зависимостей, а также с добавлением или удалением пакетов по мере необходимости. Эта команда обработает набор обновлений, которые могли быть отложены во время предыдущих операций. Вызываем комнады повторно, после установки новых обновлений нет.
 
-![linux](/src/screenshots/4-1.png)
+![linux](/Linux/screenshots/4-1.png)
 
 
 <a name="Part 5. Использование команды sudo"></a> 
@@ -142,7 +142,7 @@ Sudo – это утилита для операционных систем се
 
 Командой `su NewADMIN` меняем пользователя и меняем название hostname ОС с помощью `sudo hostnamectl set-hostname user-3`. После перезагрузки название отображается корректно.
 
-![linux](/src/screenshots/5-1.png)
+![linux](/Linux/screenshots/5-1.png)
 
 
 <a name="Part 6. Установка и настройка службы времени"></a> 
@@ -151,7 +151,7 @@ Sudo – это утилита для операционных систем се
 Командой `date` смотрим текущее время, так же проверяем командой `timedatectl` и `timedatectl show`.
 При смене часового пояса ранее был активирован  NTPD (Network Time Protocol daemon).
 
-![linux](/src/screenshots/6-1.png)
+![linux](/Linux/screenshots/6-1.png)
 
 
 <a name="Part 7. Установка и использование текстовых редакторов"></a> 
@@ -171,7 +171,7 @@ Sudo – это утилита для операционных систем се
 
 - Для выхода с сохранением нажимем Esc вводим команду :wq и нажимаем Enter
 
-![linux](/src/screenshots/7-2-vim.png)
+![linux](/Linux/screenshots/7-2-vim.png)
 
 Текстовый редактор NANO:
 
@@ -181,7 +181,7 @@ Sudo – это утилита для операционных систем се
 
 - Для выхода нажимаем комбинацию ctrl+x для сохранения, соглашаемся клавишей Y и нажимаем Enter
 
-![linux](/src/screenshots/7-2-nano.png)
+![linux](/Linux/screenshots/7-2-nano.png)
 
 Текстовый редактор MCEDIT:
 
@@ -191,7 +191,7 @@ Sudo – это утилита для операционных систем се
 
 - Для выхода с сохранением нажимаем Esc и выбираем YES
 
-![linux](/src/screenshots/7-2-mcedit.png)
+![linux](/Linux/screenshots/7-2-mcedit.png)
 
 #### 3. Используя каждый из трех выбранных редакторов, откройте файл на редактирование, отредактируйте файл, заменив никнейм на строку "21 School 21", закройте файл без сохранения изменений.
 
@@ -203,7 +203,7 @@ Sudo – это утилита для операционных систем се
 
 - Для выхода без сохранения нажимаем Esc вводим команду :q! и нажимаем Enter
 
-![linux](/src/screenshots/7-3-vim.png)
+![linux](/Linux/screenshots/7-3-vim.png)
 
 Текстовый редактор NANO:
 
@@ -213,7 +213,7 @@ Sudo – это утилита для операционных систем се
 
 - Для выхода без сохранения нажимаем комбинацию ctrl+x и клавишу N
 
-![linux](/src/screenshots/7-3-nano.png)
+![linux](/Linux/screenshots/7-3-nano.png)
 
 Текстовый редактор MCEDIT:
 
@@ -223,7 +223,7 @@ Sudo – это утилита для операционных систем се
 
 - Для выхода без сохранения нажимаем Esc, а затем NO
 
-![linux](/src/screenshots/7-3-mcedit.png)
+![linux](/Linux/screenshots/7-3-mcedit.png)
 
 #### 4. Используя каждый из трех выбранных редакторов, отредактируйте файл ещё раз (по аналогии с предыдущим пунктом), а затем освойте функции поиска по содержимому файла (слово) и замены слова на любое другое.
 
@@ -233,11 +233,11 @@ Sudo – это утилита для операционных систем се
 
 - Для поиска в VIM вводим / и искомое слово turkatrj
 
-![linux](/src/screenshots/7-4-vim.png)
+![linux](/Linux/screenshots/7-4-vim.png)
 
 - Для замены слова в VIM вводим :%s/<изначальное_слово>/<измененное_слово>
 
-![linux](/src/screenshots/7-4-1-vim.png)
+![linux](/Linux/screenshots/7-4-1-vim.png)
 
 
 Текстовый редактор NANO:
@@ -246,11 +246,11 @@ Sudo – это утилита для операционных систем се
 
 - Для поиска нажимаем ctrl + W
 
-![linux](/src/screenshots/7-4-nano.png)
+![linux](/Linux/screenshots/7-4-nano.png)
 
 - Для замены слова в NANO нажимаем ctrl + \ и пишем заменяемое слово, нажимаем Enter, пишем заменяющее слово, нажимаем Enter, выбираем YES
 
-![linux](/src/screenshots/7-4-1-nano.png)
+![linux](/Linux/screenshots/7-4-1-nano.png)
 
 
 Текстовый редактор MCEDIT:
@@ -259,11 +259,11 @@ Sudo – это утилита для операционных систем се
 
 - Для поиска в mcedit нажимаем F7, затем вводим слово, которое хотим найти
 
-![linux](/src/screenshots/7-4-mcedit.png)
+![linux](/Linux/screenshots/7-4-mcedit.png)
 
 - Для замены слова в mcedit нажимаем F4, затем вводим заменяемое слово, нажимаем стрелку вниз и пишем слово-замену, далее ENTER
 
-![linux](/src/screenshots/7-4-1-mcedit.png)
+![linux](/Linux/screenshots/7-4-1-mcedit.png)
 
 
 <a name="Part 8. Установка и базовая настройка сервиса SSHD"></a> 
@@ -275,7 +275,7 @@ Sudo – это утилита для операционных систем се
 
 Проверяем наличие командой `ssh -V`:
 
-![linux](/src/screenshots/8-1.png)
+![linux](/Linux/screenshots/8-1.png)
 
 #### 2. Добавить автостарт службы при загрузке системы.
 
@@ -287,13 +287,13 @@ Sudo – это утилита для операционных систем се
 
 Изменяем порт SSHd: строку `#Port 22` заменяем на `Port 2022` :
 
-![linux](/src/screenshots/8-3.png)
+![linux](/Linux/screenshots/8-3.png)
 
 #### 4. Используя команду ps, показать наличие процесса sshd. Для этого к команде нужно подобрать ключи.
 
 Вводим команду `ps ax | grep sshd` (флаг -a оставляет все процессы, кроме лидеров сеансов и процессов, не связанных с терминалом, флаг -x заставляет ps отображать список всех процессов, которыми вы владеете) или `ps -C sshd` (флаг -C фильтрует процессы по указанной строке)
 
-![linux](/src/screenshots/8-3.png)
+![linux](/Linux/screenshots/8-3.png)
 
 #### 5. Перезагрузить систему.
 
@@ -301,7 +301,7 @@ Sudo – это утилита для операционных систем се
 
 Устанавливаем net-tools командой `sudo apt install net-tools`. Выполняем команду `netstat -tan`:
 
-![linux](/src/screenshots/8-5.png)
+![linux](/Linux/screenshots/8-5.png)
 
 Значения флагов:
 - a - Отображение всех подключений и ожидающих портов.
@@ -338,7 +338,7 @@ State бывает:
 
 Запускаем команду `top`:
 
-![linux](/src/screenshots/9-1.png)
+![linux](/Linux/screenshots/9-1.png)
 
 В первой строке:
 - uptime - время 18:44:14 и "сеанс" 16 минут в первой строке
@@ -358,35 +358,35 @@ State бывает:
 
 Запускаем команду `htop`:
 
-![linux](/src/screenshots/9-2.png)
+![linux](/Linux/screenshots/9-2.png)
 
 Для выбора сортировки нажимаем F6. Отсортированый по PID:
 
-![linux](/src/screenshots/9-3.png)
+![linux](/Linux/screenshots/9-3.png)
 
 Отсортированый по PERCENT_CPU:
 
-![linux](/src/screenshots/9-4.png)
+![linux](/Linux/screenshots/9-4.png)
 
 Отсортированый по PERCENT_MEM:
 
-![linux](/src/screenshots/9-5.png)
+![linux](/Linux/screenshots/9-5.png)
 
 Отсортированый по TIME:
 
-![linux](/src/screenshots/9-6.png)
+![linux](/Linux/screenshots/9-6.png)
 
 Для фильтрации нажимаем F4. Отфильтрованный для процесса sshd:
 
-![linux](/src/screenshots/9-7.png)
+![linux](/Linux/screenshots/9-7.png)
 
 Для поиска нажимаем F3. Найденный процессом syslog, для следующего совпадения нажать F3:
 
-![linux](/src/screenshots/9-8.png)
+![linux](/Linux/screenshots/9-8.png)
 
 Для добавления вывода hostname, clock и uptime нажимаем F2:
 
-![linux](/src/screenshots/9-9.png)
+![linux](/Linux/screenshots/9-9.png)
 
 
 <a name="Part 10. Использование утилиты fdisk"></a> 
@@ -394,7 +394,7 @@ State бывает:
 
 Запускаем утилиту командой `sudo fdisk -l`:
 
-![linux](/src/screenshots/10.png)
+![linux](/Linux/screenshots/10.png)
 
 - Название жесткого диска VBOX HARDDISK
 - размер - 35 GiB
@@ -402,14 +402,14 @@ State бывает:
 
 Используем команду `free -h` для определения размера swap:
 
-![linux](/src/screenshots/10-2.png)
+![linux](/Linux/screenshots/10-2.png)
 
 <a name="Part 11. Использование утилиты df"></a> 
 ## Part 11. Использование утилиты df
 
 Вводим команды `df` и `df /` :
 
-![linux](/src/screenshots/11-1.png)
+![linux](/Linux/screenshots/11-1.png)
 
 - Размер раздела - 16849719 Кб
 
@@ -428,7 +428,7 @@ State бывает:
 
 Вводим команды `df -Th` и `df -Th /` :
 
-![linux](/src/screenshots/11-2.png)
+![linux](/Linux/screenshots/11-2.png)
 
 - Размер раздела - 17
 - Размер занятого пространства - 4,7 Gb
@@ -442,15 +442,15 @@ State бывает:
 
 #### 1. Запустить команду du.
 
-![linux](/src/screenshots/12-1.png)
+![linux](/Linux/screenshots/12-1.png)
 
 #### 2. Вывести размер папок /home, /var, /var/log (в байтах, в человекочитаемом виде)
 
-![linux](/src/screenshots/12-2.png)
+![linux](/Linux/screenshots/12-2.png)
 
 #### 3. Вывести размер всего содержимого в /var/log (не общее, а каждого вложенного элемента, используя *)
 
-![linux](/src/screenshots/12-3.png)
+![linux](/Linux/screenshots/12-3.png)
 
 
 <a name="Part 13. Установка и использование утилиты ncdu"></a> 
@@ -458,15 +458,15 @@ State бывает:
 
 Командой `sudo apt install ncdu` устанавливаем ncdu. Размер папки /home:
 
-![linux](/src/screenshots/13-1.png)
+![linux](/Linux/screenshots/13-1.png)
 
 Размер папки /var:
 
-![linux](/src/screenshots/13-2.png)
+![linux](/Linux/screenshots/13-2.png)
 
 Размер папки /var/log:
 
-![linux](/src/screenshots/13-3.png)
+![linux](/Linux/screenshots/13-3.png)
 
 <a name="Part 14. Работа с системными журналами"></a> 
 ## Part 14. Работа с системными журналами
@@ -475,19 +475,19 @@ State бывает:
 
 Файл /var/log/dmesg:
 
-![linux](/src/screenshots/14-1.png)
+![linux](/Linux/screenshots/14-1.png)
 
 Файл /var/log/syslog:
 
-![linux](/src/screenshots/14-2.png)
+![linux](/Linux/screenshots/14-2.png)
 
 Файл /var/log/auth.log:
 
-![linux](/src/screenshots/14-3.png)
+![linux](/Linux/screenshots/14-3.png)
 
 Для просмотра последней авторизации, имени пользователя и метода входа в систему используем команду `last`:
 
-![linux](/src/screenshots/14-4.png)
+![linux](/Linux/screenshots/14-4.png)
 
 - Время последней успешной авторизации - Jul 19 18:28
 
@@ -498,11 +498,11 @@ State бывает:
 
 Перезапускаем службу SSHd командой `service sshd restart` :
 
-![linux](/src/screenshots/14-5.png)
+![linux](/Linux/screenshots/14-5.png)
 
 Выводим сообщение о рестарте служб командой `cat /var/log/syslog` :
 
-![linux](/src/screenshots/14-6.png)
+![linux](/Linux/screenshots/14-6.png)
 
 <a name="Part 15. Использование планировщика заданий CRON"></a> 
 ## Part 15. Использование планировщика заданий CRON
@@ -510,20 +510,20 @@ State бывает:
 
 Вызываем планировщик заданий `crontab -e` и выбираем текстовый редактор Vim:
 
-![linux](/src/screenshots/15-1.png)
+![linux](/Linux/screenshots/15-1.png)
 
 Добавляем задание выполнить uptime каждые 2 минуты (можно вместо команды указать адрес скрипта):
 
-![linux](/src/screenshots/15-2.png)
+![linux](/Linux/screenshots/15-2.png)
 
 Находим в системных журналах строчки работы CRON (3 раза) с помощью команды `cat /var/log/syslog`:
 
-![linux](/src/screenshots/15-4.png)
+![linux](/Linux/screenshots/15-4.png)
 
 Команда `crontab -l` отображает список текущих задач:
 
-![linux](/src/screenshots/15-3.png)
+![linux](/Linux/screenshots/15-3.png)
 
 Удаляем задачи с помощью команды `crontab -r` (или сами редактируем файл, как описано выше) и отображаем список задач `crontab -l`:
 
-![linux](/src/screenshots/15-5.png)
+![linux](/Linux/screenshots/15-5.png)
