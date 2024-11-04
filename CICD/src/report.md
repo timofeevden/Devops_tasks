@@ -1,4 +1,3 @@
-# __Отчет по индивидуальному проекту Basic CI/CD студента школы 21 turkatrj__
 
 <a name="Contents"></a> 
 #### Оглавление
@@ -19,23 +18,23 @@
 
 Сначала устанавливаем и поднимаем 2 виртуальные машины Ubuntu Server 22.04 LTS и для удобства изменяем их названия командой `sudo hostnamectl set-hostname <имя_машины>` на "first-server" и "second-server", перезагружаем командой `reboot` и смотрим версию с помощью `cat /etc/issue` :
 
-![screenshot](/src/images/1-1.png)
+![screenshot](/CICD/images/1-1.png)
 
 ### 1.2) Скачай и установи на виртуальную машину gitlab-runner.
 
 Вводим команды ` curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash`и `sudo apt install gitlab-runner`. Проверяем версию командой `gitlab-runner -v` :
 
-![screenshot](/src/images/1-2.png)
+![screenshot](/CICD/images/1-2.png)
 
 ### 1.3) Запусти gitlab-runner и зарегистрируй его для использования в текущем проекте (DO6_CICD).
 
 Запускаемм gitlab-runner комнадой `sudo gitlab-runner start` :
 
-![screenshot](/src/images/1-3.png)
+![screenshot](/CICD/images/1-3.png)
 
 Далее регистрируем его командой `sudo gitlab-runner register` для использования в текущем проекте (DO6_CICD, данные берем с https://edu.21-school.ru/project/26566/task) :
 
-![screenshot](/src/images/1-4.png)
+![screenshot](/CICD/images/1-4.png)
 
 
 [-> К оглавлению](#Contents)
@@ -49,11 +48,11 @@
 
 Создаём в директории репозитория файл `.gitlab-ci.yml`. Прописываем стадию для сборки и устанавливаем необходимые утилиты (gcc, make и прочие). Содержимое файла:
 
-![screenshot](/src/images/1-5.png)
+![screenshot](/CICD/images/1-5.png)
 
 Видим, что этап сборки прошел успешно:
 
-![screenshot](/src/images/1-6.png)
+![screenshot](/CICD/images/1-6.png)
 
 [-> К оглавлению](#Contents)
 
@@ -67,11 +66,11 @@
 
 Устанавливаем утилиту clang-format командой `sudo apt install clang-format` и добавляем в файл `.gitlab-ci.yml` этап проверки кодстайла:
 
-![screenshot](/src/images/3-1.png)
+![screenshot](/CICD/images/3-1.png)
 
 Вывод в пайплайне, что интеграционные тесты успешно прошли:
 
-![screenshot](/src/images/3-2.png)
+![screenshot](/CICD/images/3-2.png)
 
 
 [-> К оглавлению](#Contents)
@@ -89,15 +88,15 @@
 
 Добавляем в файл `.gitlab-ci.yml` этап для CI, который запускает интеграционные тесты:
 
-![screenshot](/src/images/4-1.png)
+![screenshot](/CICD/images/4-1.png)
 
 Чтобы "зафейлить" пайплан, добавляем в тестах следующую конструкцию:
 
-![screenshot](/src/images/4-2.png)
+![screenshot](/CICD/images/4-2.png)
 
 Вывод в пайплайне отобрази, что интеграционные тесты успешно прошли:
 
-![screenshot](/src/images/4-3.png)
+![screenshot](/CICD/images/4-3.png)
 
 
 
@@ -113,41 +112,41 @@
 
 Этап деплоя в файле `.gitlab-ci.yml`:
 
-![screenshot](/src/images/5-1.png)
+![screenshot](/CICD/images/5-1.png)
 
 ### 5.2) Запусти этот этап вручную при условии, что все предыдущие этапы прошли успешно.
 
 Запускаем этап:
 
-![screenshot](/src/images/5-2.png)
+![screenshot](/CICD/images/5-2.png)
 
 ### 5.3) Напиши bash-скрипт, который при помощи ssh и scp копирует файлы, полученные после сборки (артефакты), в директорию /usr/local/bin второй виртуальной машины.
 
 На второй машине предварительно выполняем `apt update`, `apt upgrade`, `apt install ssh`.
 Делаем соединение между машинами и прописываем ip и маршруты в файлах `/etc/netplan/00-installer-config.yml` (включаем в ВБ адаптеры на внутренню сеть, ip адреса взяты по примеру из LinuxNetwork), далее принимаем изменения командой `netplan apply`. Содержимое файлов `/etc/netplan/00-installer-config.yml` :
 
-![screenshot](/src/images/5-3-1.png)
+![screenshot](/CICD/images/5-3-1.png)
 
 Копировать файл будем с помощью команды `scp`, но чтобы постоянно не требовался пароль, необходимо скопировать ssh-ключ от первой машины на вторую командой `ssh-copy-id <user>@<ip>`, но так как пользователь будет gitlab-runner, то всё необходимо сделать от его имени. Для этого сначала задаём новый пароль командой `sudo passwd gitlab-runner`, далее заходим в профиль пользователя `sudo su gitlab-runner`, генерируем ssh-ключ `ssh-keygen` и копируем `ssh-copy-id turkatrj@172.24.116.8`. И добавляем необходимые команды в файл `deploy.sh` : 
 
-![screenshot](/src/images/5-3-2.png)
+![screenshot](/CICD/images/5-3-2.png)
 
 
 ### 5.4) В файле gitlab-ci.yml добавь этап запуска написанного скрипта.
 
 В случае ошибки «зафейли» пайплайн. В результате ты должен получить готовые к работе приложения из проекта C2_SimpleBashUtils (s21_cat и s21_grep) на второй виртуальной машине.
 
-![screenshot](/src/images/5-1.png)
+![screenshot](/CICD/images/5-1.png)
 
 Видим, что файлы скопировались на вторую машину:
 
-![screenshot](/src/images/5-4-2.png)
+![screenshot](/CICD/images/5-4-2.png)
 
 ### 5.6) Сохрани дампы образов виртуальных машин.
 
 Сохраняем дампы образов виртуальных машин:
 
-![screenshot](/src/images/5-1.png)
+![screenshot](/CICD/images/5-1.png)
 
 
 
@@ -177,13 +176,13 @@
 Пишем код на С++ для нашего бота. Содержимое файла tg_bot.cpp:
 
 
-![screenshot](/src/images/6-1.png)
+![screenshot](/CICD/images/6-1.png)
 
 
 Логика предельно простая, при запуске исполняемого файла в аргументах указываем ID чата пользователя, которому будут отправлться уведомления и текст. Создаем переменную для хранения ID чата пользователя и добавляем уведомления во все стадии и создаем ещё 1 для отправки ошибки:
 
 
-![screenshot](/src/images/6-2.png)
+![screenshot](/CICD/images/6-2.png)
 
 
 [-> К оглавлению](#Contents)
